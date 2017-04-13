@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.khh.web.dao.PermissionMapper">
+  <resultMap id="BaseResultMap" type="com.khh.web.domain.Permission">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sign" jdbcType="VARCHAR" property="sign" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="id_vaild" jdbcType="TINYINT" property="idVaild" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, sign, description, id_vaild
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_permission
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_permission
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.khh.web.domain.Permission">
+    insert into t_permission (id, name, sign, 
+      description, id_vaild)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{idVaild,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.khh.web.domain.Permission">
+    insert into t_permission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sign != null">
+        sign,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="idVaild != null">
+        id_vaild,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null">
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="idVaild != null">
+        #{idVaild,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.khh.web.domain.Permission">
+    update t_permission
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null">
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="idVaild != null">
+        id_vaild = #{idVaild,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.khh.web.domain.Permission">
+    update t_permission
+    set name = #{name,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      id_vaild = #{idVaild,jdbcType=TINYINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>
