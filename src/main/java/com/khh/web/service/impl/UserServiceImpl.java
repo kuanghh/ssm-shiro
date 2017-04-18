@@ -14,9 +14,31 @@ public class UserServiceImpl implements UserService {
 
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
-    private UserMapper mapper;
+    private UserMapper userMapper;
 
     public int insert(User user) {
-        return mapper.insert(user);
+        return userMapper.insert(user);
+    }
+
+    public int update(User user) {
+        return userMapper.update(user);
+    }
+
+    public int deleteById(User user) {
+        return userMapper.deleteById(user.getId());
+    }
+
+    public User findById(String id) {
+        return userMapper.findById(id);
+    }
+
+    @Override
+    public User authentication(User user) {
+        return userMapper.authentication(user);
+    }
+
+    @Override
+    public User findByUserName(String username) {
+        return userMapper.findByUserName(username);
     }
 }

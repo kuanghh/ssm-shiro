@@ -9,4 +9,13 @@ public interface UserService {
 
     int insert(User user);
 
+    int update(User user);
+
+    int deleteById(User user);
+
+    User findById(String id);
+
+    User authentication(User user);
+
+    User findByUserName(String username);
 }

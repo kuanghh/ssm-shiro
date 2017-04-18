@@ -3,15 +3,17 @@ package com.khh.web.dao;
 import com.khh.web.domain.User;
 
 public interface UserMapper {
-    int deleteByPrimaryKey(String id);
 
-    int insert(User record);
+    int insert(User user);
 
-    int insertSelective(User record);
+    int update(User user);
 
-    User selectByPrimaryKey(String id);
+    int deleteById(String id);
 
-    int updateByPrimaryKeySelective(User record);
+    User findById(String id);
 
-    int updateByPrimaryKey(User record);
+
+    User authentication(User user);
+
+    User findByUserName(String username);
 }

@@ -1,94 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.khh.web.dao.PermissionMapper">
-  <resultMap id="BaseResultMap" type="com.khh.web.domain.Permission">
+  <resultMap id="PermissionResultMap" type="com.khh.web.domain.Permission">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="sign" jdbcType="VARCHAR" property="sign" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="id_vaild" jdbcType="TINYINT" property="idVaild" />
+    <result column="id_valid" property="idValid" />
   </resultMap>
-  <sql id="Base_Column_List">
-    id, name, sign, description, id_vaild
+  <sql id="add_column_list">
+    id, name, description , sign, id_vaild
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from t_permission
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from t_permission
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
   <insert id="insert" parameterType="com.khh.web.domain.Permission">
-    insert into t_permission (id, name, sign, 
-      description, id_vaild)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{idVaild,jdbcType=TINYINT})
+    insert into t_permission(<include refid="add_column_list" />)
+    values(#{id},#{name},#{description},#{sign},#{isValid})
   </insert>
-  <insert id="insertSelective" parameterType="com.khh.web.domain.Permission">
-    insert into t_permission
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="sign != null">
-        sign,
-      </if>
-      <if test="description != null">
-        description,
-      </if>
-      <if test="idVaild != null">
-        id_vaild,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="sign != null">
-        #{sign,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="idVaild != null">
-        #{idVaild,jdbcType=TINYINT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.khh.web.domain.Permission">
+
+  <delete id="deleteById" >
+    delete from t_permission where id = #{id}
+  </delete>
+
+  <update id="update" parameterType="com.khh.web.domain.Permission" >
     update t_permission
-    <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="sign != null">
-        sign = #{sign,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="idVaild != null">
-        id_vaild = #{idVaild,jdbcType=TINYINT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.khh.web.domain.Permission">
-    update t_permission
-    set name = #{name,jdbcType=VARCHAR},
-      sign = #{sign,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
-      id_vaild = #{idVaild,jdbcType=TINYINT}
-    where id = #{id,jdbcType=VARCHAR}
+    set
+    id = id,
+    <if test="name != null">
+      name = #{name},
+    </if>
+    <if test="description != null">
+      description = #{description},
+    </if>
+    <if test="sign != null">
+      sign = #{sign},
+    </if>
+    <if test="isValid != null">
+      is_valid = #{isValid},
+    </if>
+    id =id
+    where
+    id = #{id}
   </update>
 
+  <select id="findById" resultMap="PermissionResultMap">
+    select * from t_permission where id=#{id}
+  </select>
+
+  <select id="findAllByRoleId" parameterType="string" resultMap="PermissionResultMap" >
+    select p.*
+    from t_role_permission  rp
+    left join t_role r on rp.role_id = r.id
+    left join t_permission p on rp.permission_id = p.id
+    where r.id = #{id}
+  </select>
 </mapper>

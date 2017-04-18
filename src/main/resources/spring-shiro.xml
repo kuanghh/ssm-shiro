@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager"/>
+		<!-- 没有登录认证的用户请求将跳转到此地址进行认证 -->
+		<property name="loginUrl" value="/html/login.html"/>
+		<!-- -->
+		<property name="successUrl" value="/index.jsp"/>
+		<!-- 没有权限默认跳转的页面-->
+		<property name="unauthorizedUrl" value="/index.jsp"/>
+		<property name="filterChainDefinitions">
+			<value>
+				<!-- 登录页允许访问 -->
+				/html/login.html = anon
+				<!-- 其他资源需要认证 -->
+				/*.action = authc
+			</value>
+		</property>
+	</bean>
+
+	<!-- 缓存管理器 使用Ehcache实现 -->
+	<!--<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">-->
+		<!--<property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml"/>-->
+	<!--</bean>-->
+
+	<!-- 会话DAO -->
+	<bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.MemorySessionDAO"/>
+
+	<!-- 会话管理器 -->
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="sessionDAO" ref="sessionDAO"/>
+	</bean>
+
+	<!-- 注册realm -->
+	<bean id="securityRealm" class="com.khh.web.security.SecurityRealm" />
+	<!-- 安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realms">
+			<list>
+				<ref bean="securityRealm"/>
+			</list>
+		</property>
+		<!-- cacheManager,集合spring缓存工厂 -->
+		<!-- <property name="cacheManager" ref="shiroEhcacheManager" /> -->
+		<!-- <property name="sessionManager" ref="sessionManager" /> -->
+	</bean>
+
+	<!-- Shiro生命周期处理器 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+		
+</beans>

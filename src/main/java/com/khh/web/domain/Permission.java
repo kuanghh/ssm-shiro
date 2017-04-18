@@ -11,7 +11,7 @@ public class Permission implements Serializable {
 
     private String description;
 
-    private boolean idVaild;
+    private boolean idValid;
 
     public String getId() {
         return id;
@@ -45,11 +45,11 @@ public class Permission implements Serializable {
         this.description = description == null ? null : description.trim();
     }
 
-    public boolean getIdVaild() {
-        return idVaild;
+    public boolean getIdValid() {
+        return idValid;
     }
 
-    public void setIdVaild(boolean idVaild) {
-        this.idVaild = idVaild;
+    public void setIdValid(boolean idValid) {
+        this.idValid = idValid;
     }
 }

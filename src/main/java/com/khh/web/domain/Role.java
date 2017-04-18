@@ -11,7 +11,7 @@ public class Role implements Serializable {
 
     private String sign;
 
-    private boolean isVaild;
+    private boolean isValid;
 
     public String getId() {
         return id;
@@ -45,11 +45,11 @@ public class Role implements Serializable {
         this.sign = sign == null ? null : sign.trim();
     }
 
-    public boolean getIsVaild() {
-        return isVaild;
+    public boolean getIsValid() {
+        return isValid;
     }
 
-    public void setIsVaild(boolean isVaild) {
-        this.isVaild = isVaild;
+    public void setIsValid(boolean isValid) {
+        this.isValid = isValid;
     }
 }

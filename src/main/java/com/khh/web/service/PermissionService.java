@@ -1,15 +1,21 @@
-package com.khh.web.dao;
+package com.khh.web.service;
 
 import com.khh.web.domain.Permission;
+import com.khh.web.domain.Role;
+import com.khh.web.domain.User;
 
 import java.util.List;
 
-public interface PermissionMapper {
+/**
+ * Created by 951087952@qq.com on 2017/4/17.
+ */
+public interface PermissionService {
+
     int insert(Permission permission);
 
     int update(Permission permission);
 
-    int deleteById(String id);
+    int deleteById(Permission permission);
 
     Permission findById(String id);
 

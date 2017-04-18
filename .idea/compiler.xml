@@ -23,10 +23,11 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="ssm+shiro" />
+        <module name="ssm-shiro" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="ssm+shiro" target="1.5" />
+      <module name="ssm-shiro" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -25,6 +25,11 @@ public class User implements Serializable{
         this.id = UUID.randomUUID().toString().replaceAll("-","");
     }
 
+    public User(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
+
     public String getId() {
         return id;
     }

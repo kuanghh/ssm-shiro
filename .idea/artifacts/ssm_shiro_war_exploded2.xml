@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="ssm+shiro:war exploded">
-    <output-path>$PROJECT_DIR$/target/ssm+shiro demo</output-path>
+  <artifact type="exploded-war" name="ssm-shiro:war exploded">
+    <output-path>$PROJECT_DIR$/target/ssm-shiro demo</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -71,10 +71,18 @@
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-validator:5.1.3.Final" />
           <element id="library" level="project" name="Maven: javax.validation:validation-api:1.1.0.Final" />
           <element id="library" level="project" name="Maven: com.fasterxml:classmate:1.0.0" />
+          <element id="library" level="project" name="Maven: org.apache.shiro:shiro-core:1.3.2" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.21" />
+          <element id="library" level="project" name="Maven: org.apache.shiro:shiro-web:1.3.2" />
+          <element id="library" level="project" name="Maven: org.apache.shiro:shiro-spring:1.3.2" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-core:2.7" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.7" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.7.21" />
+          <element id="library" level="project" name="Maven: log4j:log4j:1.2.17" />
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/ssm+shiro demo/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/ssm-shiro demo/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="ssm-shiro/web/Web" />
     </root>
