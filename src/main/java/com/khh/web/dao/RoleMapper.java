@@ -16,4 +16,6 @@ public interface RoleMapper {
 
 
     List<Role> findAllByUserId(String id);
+
+    List<Role> findAll();
 }

@@ -26,7 +26,7 @@
     <!-- 全局异常处理器
     只要你实现了HandlerExceptionResolver接口，这个
     类就是一个全局异常处理器-->
-    <!--<form class="com.khh.core.exception.CustomExceptionResolver"/>-->
+    <!--<form class="com.khh.core.web.exception.CustomExceptionResolver"/>-->
 
     <!--
         配置拦截器

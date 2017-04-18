@@ -1,6 +1,7 @@
 package com.khh.web.domain;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class Permission implements Serializable {
     private String id;
@@ -11,8 +12,11 @@ public class Permission implements Serializable {
 
     private String description;
 
-    private boolean idValid;
+    private boolean isValid;
 
+    public Permission(){
+        this.id = UUID.randomUUID().toString().replaceAll("-","");
+    }
     public String getId() {
         return id;
     }
@@ -45,11 +49,11 @@ public class Permission implements Serializable {
         this.description = description == null ? null : description.trim();
     }
 
-    public boolean getIdValid() {
-        return idValid;
+    public boolean getIsValid() {
+        return isValid;
     }
 
-    public void setIdValid(boolean idValid) {
-        this.idValid = idValid;
+    public void setIdValid(boolean isValid) {
+        this.isValid = isValid;
     }
 }

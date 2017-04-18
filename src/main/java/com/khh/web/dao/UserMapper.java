@@ -12,8 +12,11 @@ public interface UserMapper {
 
     User findById(String id);
 
+    User authenticationByName(User user);
 
-    User authentication(User user);
+    User authenticationByEmail(User user);
 
     User findByUserName(String username);
+
+    User findByUserEmail(String email);
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.khh.web.dao.UserRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.khh.web.domain.UserRole" >
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+    <result column="is_valid" property="isValid" />
+  </resultMap>
+  <insert id="insert" parameterType="com.khh.web.domain.UserRole" >
+    insert into t_user_role (user_id, role_id, is_valid)
+    values (#{userId}, #{roleId}, #{isValid} )
+  </insert>
+
+</mapper>

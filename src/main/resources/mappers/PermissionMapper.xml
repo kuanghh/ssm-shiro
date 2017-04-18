@@ -6,10 +6,10 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="sign" jdbcType="VARCHAR" property="sign" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="id_valid" property="idValid" />
+    <result column="is_valid" property="isValid" />
   </resultMap>
   <sql id="add_column_list">
-    id, name, description , sign, id_vaild
+    id, name, description , sign, is_valid
   </sql>
   <insert id="insert" parameterType="com.khh.web.domain.Permission">
     insert into t_permission(<include refid="add_column_list" />)
@@ -51,5 +51,9 @@
     left join t_role r on rp.role_id = r.id
     left join t_permission p on rp.permission_id = p.id
     where r.id = #{id}
+  </select>
+
+  <select id="findAll" resultMap="PermissionResultMap" >
+    select * from t_permission
   </select>
 </mapper>

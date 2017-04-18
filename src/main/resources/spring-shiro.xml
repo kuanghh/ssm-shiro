@@ -45,12 +45,14 @@
 	</bean>
 
 	<!-- 注册realm -->
-	<bean id="securityRealm" class="com.khh.web.security.SecurityRealm" />
+	<bean id="NameSecurityRealm" class="com.khh.web.security.NamePasswordRealm" />
+	<bean id="EmailSecurityRealm" class="com.khh.web.security.EmailPasswordRealm" />
 	<!-- 安全管理器 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realms">
 			<list>
-				<ref bean="securityRealm"/>
+				<ref bean="NameSecurityRealm"/>
+				<ref bean="EmailSecurityRealm"/>
 			</list>
 		</property>
 		<!-- cacheManager,集合spring缓存工厂 -->

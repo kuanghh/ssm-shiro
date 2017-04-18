@@ -1,5 +1,7 @@
 package com.khh.web.dao;
 
-public interface RolePermissionMapper {
+import com.khh.web.domain.RolePermission;
 
+public interface RolePermissionMapper {
+    int insert(RolePermission record);
 }

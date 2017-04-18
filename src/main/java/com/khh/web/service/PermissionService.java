@@ -20,4 +20,6 @@ public interface PermissionService {
     Permission findById(String id);
 
     List<Permission> findAllByRoleId(String id);
+
+    List<Permission> findAll();
 }

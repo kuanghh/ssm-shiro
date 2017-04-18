@@ -33,12 +33,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User authentication(User user) {
-        return userMapper.authentication(user);
+    public User authenticationByName(User user) {
+        return userMapper.authenticationByName(user);
     }
 
     @Override
     public User findByUserName(String username) {
         return userMapper.findByUserName(username);
+    }
+
+    @Override
+    public User authenticationByEmail(User user) {
+        return userMapper.authenticationByEmail(user);
+    }
+
+    @Override
+    public User findByUserEmail(String email) {
+        return userMapper.findByUserEmail(email);
     }
 }

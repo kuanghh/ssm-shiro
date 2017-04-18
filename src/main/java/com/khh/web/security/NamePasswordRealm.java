@@ -21,7 +21,7 @@ import java.util.stream.Stream;
  * Created by 951087952@qq.com on 2017/4/17.
  * 认证管理器
  */
-public class SecurityRealm extends AuthorizingRealm {
+public class NamePasswordRealm extends AuthorizingRealm {
 
     @Autowired
     private UserService userService;
@@ -34,7 +34,7 @@ public class SecurityRealm extends AuthorizingRealm {
 
     @Override
     public String getName() {
-        return "securityRealm";
+        return "NameSecurityRealm";
     }
 
     //支持什么类型的token
@@ -51,17 +51,20 @@ public class SecurityRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         String username = (String) principal.getPrimaryPrincipal();
-        final User user = userService.findByUserName(username);
-        //找到所有角色
-        List<Role> list = roleService.findAllByUserId(user.getId());
-        Stream<String> rSignstream = list.stream().map(r -> r.getSign());
-        authorizationInfo.addRoles(rSignstream.collect(Collectors.toList()));
-        //找到所有权限
-        Stream<String> pSignstream = list.stream().flatMap(r -> {
-            List<Permission> pl = permissionService.findAllByRoleId(r.getId());
-            return pl.stream().map(p -> p.getSign());
-        });
-        authorizationInfo.addStringPermissions(pSignstream.collect(Collectors.toList()));
+        try {
+            final User user = userService.findByUserName(username);
+            //找到所有角色
+            List<Role> list = roleService.findAllByUserId(user.getId());
+            Stream<String> rSignstream = list.stream().map(r -> r.getSign());
+            authorizationInfo.addRoles(rSignstream.collect(Collectors.toList()));
+            //找到所有权限
+            Stream<String> pSignstream = list.stream().flatMap(r -> {
+                List<Permission> pl = permissionService.findAllByRoleId(r.getId());
+                return pl.stream().map(p -> p.getSign());
+            });
+            authorizationInfo.addStringPermissions(pSignstream.collect(Collectors.toList()));
+        }catch (Exception e){
+        }
         return authorizationInfo;
     }
 
@@ -75,7 +78,7 @@ public class SecurityRealm extends AuthorizingRealm {
         String username = String.valueOf(token.getPrincipal());
         String password = new String((char[]) token.getCredentials());
         //通过数据库进行验证
-        final User user = userService.authentication(new User(username,password));
+        final User user = userService.authenticationByName(new User(username,password));
         if(user == null){
             throw new AuthenticationException("用户名或密码错误");
         }

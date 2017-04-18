@@ -1,6 +1,7 @@
 package com.khh.web.domain;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class Role implements Serializable {
     private String id;
@@ -12,6 +13,10 @@ public class Role implements Serializable {
     private String sign;
 
     private boolean isValid;
+
+    public Role(){
+        this.id = UUID.randomUUID().toString().replaceAll("-","");
+    }
 
     public String getId() {
         return id;

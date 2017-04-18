@@ -15,7 +15,11 @@ public interface UserService {
 
     User findById(String id);
 
-    User authentication(User user);
+    User authenticationByName(User user);
+
+    User authenticationByEmail(User user);
+
+    User findByUserEmail(String email);
 
     User findByUserName(String username);
 }

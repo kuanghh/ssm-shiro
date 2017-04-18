@@ -14,4 +14,6 @@ public interface PermissionMapper {
     Permission findById(String id);
 
     List<Permission> findAllByRoleId(String id);
+
+    List<Permission> findAll();
 }

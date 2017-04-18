@@ -13,6 +13,8 @@ public class User implements Serializable{
 
     private int state;
 
+    private String email;
+
     private Date createTime;
 
     //默认为有效
@@ -26,9 +28,18 @@ public class User implements Serializable{
     }
 
     public User(String name, String password) {
+        this();
         this.name = name;
         this.password = password;
     }
+
+    public User(String email,String password,int state){
+        this();
+        this.email = email;
+        this.password = password;
+    }
+
+
 
     public String getId() {
         return id;
@@ -76,5 +87,13 @@ public class User implements Serializable{
 
     public void setIsValid(boolean isValid) {
         this.isValid = isValid;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -1,5 +1,6 @@
 package com.khh.web.service;
 
+import com.khh.core.bean.RoleBean;
 import com.khh.web.domain.Role;
 import com.khh.web.domain.User;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface RoleService {
 
-    int insert(Role role);
+    int insert(RoleBean roleBean);
 
     int update(Role role);
 
@@ -19,4 +20,6 @@ public interface RoleService {
     Role findById(String id);
 
     List<Role> findAllByUserId(String id);
+
+    List<Role> findAll();
 }

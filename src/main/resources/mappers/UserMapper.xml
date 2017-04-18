@@ -7,17 +7,18 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="is_valid"  property="isValid" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, password, state, create_time, is_valid
+    id, name, password, state,email, create_time, is_valid
   </sql>
   <sql id="add_column_list">
-    id, name, password, state, create_time, is_valid
+    id, name, password, state,email, create_time, is_valid
   </sql>
   <insert id="insert" parameterType="com.khh.web.domain.User">
     insert into t_user(<include refid="add_column_list" />)
-    values(#{id},#{name},#{password},#{state},#{createTime},#{isValid})
+    values(#{id},#{name},#{password},#{state},#{email},#{createTime},#{isValid})
   </insert>
 
   <delete id="deleteById" >
@@ -37,6 +38,9 @@
       <if test="state">
         state = #{state},
       </if>
+      <if test="email">
+        email = #{email},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime},
       </if>
@@ -52,14 +56,24 @@
       select * from t_user where id=#{id}
   </select>
 
-  <select id="authentication" resultMap="UserResultMap" parameterType="com.khh.web.domain.User">
+  <select id="authenticationByName" resultMap="UserResultMap" parameterType="com.khh.web.domain.User">
     select * FROM t_user
     where name=#{name} and password=#{password}
   </select>
 
-  <select id="findByUserName" resultMap="UserResultMap" parameterType="com.khh.web.domain.User">
+  <select id="authenticationByEmail" resultMap="UserResultMap" parameterType="com.khh.web.domain.User">
+    select * FROM t_user
+    where email=#{email} and password=#{password}
+  </select>
+
+  <select id="findByUserName" resultMap="UserResultMap" >
     select * FROM t_user
     where name=#{name}
+  </select>
+
+  <select id="findByUserEmail" resultMap="UserResultMap">
+    select * FROM t_user
+    where email=#{email}
   </select>
 
 </mapper>

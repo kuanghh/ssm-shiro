@@ -39,4 +39,9 @@ public class PermissionServiceImpl implements PermissionService{
     public List<Permission> findAllByRoleId(String id) {
         return permissionMapper.findAllByRoleId(id);
     }
+
+    @Override
+    public List<Permission> findAll() {
+        return permissionMapper.findAll();
+    }
 }
