@@ -13,10 +13,6 @@ public interface PermissionService {
 
     int insert(Permission permission);
 
-    int update(Permission permission);
-
-    int deleteById(Permission permission);
-
     Permission findById(String id);
 
     List<Permission> findAllByRoleId(String id);

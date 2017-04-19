@@ -1,17 +1,20 @@
 package com.khh.web.service;
 
+import com.khh.core.bean.UserBean;
 import com.khh.web.domain.User;
+
+import java.util.List;
 
 /**
  * Created by 951087952@qq.com on 2017/4/13.
  */
 public interface UserService {
 
-    int insert(User user);
+    int insert(UserBean userBean);
 
     int update(User user);
 
-    int deleteById(User user);
+    int deleteById(String user);
 
     User findById(String id);
 
@@ -22,4 +25,6 @@ public interface UserService {
     User findByUserEmail(String email);
 
     User findByUserName(String username);
+
+    List<UserBean> findAll();
 }

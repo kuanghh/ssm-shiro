@@ -12,7 +12,7 @@ public class Permission implements Serializable {
 
     private String description;
 
-    private boolean isValid;
+    private boolean isValid = true;
 
     public Permission(){
         this.id = UUID.randomUUID().toString().replaceAll("-","");

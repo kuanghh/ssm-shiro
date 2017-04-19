@@ -12,7 +12,7 @@ public class Role implements Serializable {
 
     private String sign;
 
-    private boolean isValid;
+    private boolean isValid = true;
 
     public Role(){
         this.id = UUID.randomUUID().toString().replaceAll("-","");

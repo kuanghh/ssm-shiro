@@ -2,7 +2,6 @@ package com.khh.web.service;
 
 import com.khh.core.bean.RoleBean;
 import com.khh.web.domain.Role;
-import com.khh.web.domain.User;
 
 import java.util.List;
 
@@ -11,15 +10,39 @@ import java.util.List;
  */
 public interface RoleService {
 
+    /**
+     * 添加新角色
+     * @param roleBean
+     * @return
+     */
     int insert(RoleBean roleBean);
 
-    int update(Role role);
+    /**
+     * 更新角色
+     * @param roleBean
+     * @return
+     */
+    int update(RoleBean roleBean);
 
-    int deleteById(Role role);
+    /**
+     * 删除角色(假删除)
+     * @param id
+     * @return
+     */
+    int deleteById(String id);
 
-    Role findById(String id);
+    /**
+     * 根据Id查询角色详细信息
+     * @param id
+     * @return
+     */
+    RoleBean findById(String id);
 
     List<Role> findAllByUserId(String id);
 
-    List<Role> findAll();
+    /**
+     * 查询所有角色详细信息
+     * @return
+     */
+    List<RoleBean> findAll();
 }

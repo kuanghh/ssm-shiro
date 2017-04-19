@@ -21,8 +21,9 @@ public class BaseController {
         //对异常进行判断做相应的处理
         if(e instanceof AuthorizationException){
             System.out.println("go to index.jsp");
-            return "forward:/index.jsp";
+            return "forward:/noPermission.jsp";
         }
-        return null;
+        e.printStackTrace();
+        return "forward:/error.jsp";
     }
 }

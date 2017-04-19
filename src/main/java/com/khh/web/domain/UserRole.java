@@ -5,7 +5,14 @@ public class UserRole {
 
     private String roleId;
 
-    private boolean isValid;
+    private boolean isValid = true;
+
+    public UserRole(){}
+
+    public UserRole(String userId, String roleId) {
+        this.userId = userId;
+        this.roleId = roleId;
+    }
 
     public String getUserId() {
         return userId;

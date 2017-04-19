@@ -23,14 +23,6 @@ public class PermissionServiceImpl implements PermissionService{
         return permissionMapper.insert(permission);
     }
 
-    public int update(Permission permission) {
-        return permissionMapper.update(permission);
-    }
-
-    public int deleteById(Permission permission) {
-        return permissionMapper.deleteById(permission.getId());
-    }
-
     public Permission findById(String id) {
         return permissionMapper.findById(id);
     }

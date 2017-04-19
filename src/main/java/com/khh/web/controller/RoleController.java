@@ -39,9 +39,11 @@ public class RoleController extends BaseController{
     @ResponseBody
     public ResponseBean getAllRoles() throws Exception{
         ResponseBean responseBean = new ResponseBean();
-        List<Role> roleList = roleService.findAll();
+
+        List<RoleBean> roleList = roleService.findAll();
         responseBean.setSuccessResponse("获取成功");
-        responseBean.setData("roleList",roleList);
+        responseBean.setData("roleList", roleList);
+
         return responseBean;
     }
 
@@ -83,7 +85,67 @@ public class RoleController extends BaseController{
         return responseBean;
     }
 
+    /**
+     * 修改角色---回显信息
+     * @return
+     * @throws Exception
+     */
+    @RequiresPermissions(value = PermissionSign.ROLE_UPDATE)
+    @RequestMapping(value = "/beforeEditRole",method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseBean beforeEditRole(String id) throws Exception{
+        ResponseBean responseBean = new ResponseBean();
 
+        RoleBean roleBean = roleService.findById(id);
+        responseBean.setData("role",roleBean);
+        responseBean.setSuccessResponse("回显成功");
+        return responseBean;
+    }
 
+    /**
+     * 修改角色
+     * @param roleBean
+     * @param result
+     * @return
+     * @throws Exception
+     */
+    @RequiresPermissions(value = PermissionSign.ROLE_UPDATE)
+    @RequestMapping(value = "/editRole",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBean editRole(@Valid RoleBean roleBean, BindingResult result) throws Exception{
+        ResponseBean responseBean = new ResponseBean();
+
+        if (result.hasErrors()) {
+            responseBean.setErrorResponse(result.getFieldError().getDefaultMessage());
+            return responseBean;
+        }
+        int i = roleService.update(roleBean);
+        if (i == 0) {
+            responseBean.setErrorResponse("修改失败");
+            return responseBean;
+        }
+        responseBean.setSuccessResponse("修改成功");
+
+        return responseBean;
+    }
+
+    /**
+     * 删除角色
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @RequiresPermissions(value = PermissionSign.ROLE_DELETE)
+    @RequestMapping(value = "/deleteRole",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBean deleteRole(String id) throws Exception{
+        ResponseBean responseBean = new ResponseBean();
+        int i = roleService.deleteById(id);
+        if(i == 0){
+            responseBean.setErrorResponse("删除失败");
+        }
+        responseBean.setSuccessResponse("删除成功");
+        return responseBean;
+    }
 
 }

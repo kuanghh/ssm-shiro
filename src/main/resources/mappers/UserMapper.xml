@@ -10,6 +10,22 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="is_valid"  property="isValid" />
   </resultMap>
+
+  <resultMap id="UserBeanResultMap" type="com.khh.web.domain.User">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <collection property="roleBeanList" ofType="com.khh.core.bean.RoleBean" javaType="ArrayList" >
+      <id column="r_id" property="id" />
+      <result column="r_name" property="name" />
+      <result column="r_sign" property="sign" />
+      <result column="r_description" property="description" />
+    </collection>
+  </resultMap>
+
+
   <sql id="Base_Column_List">
     id, name, password, state,email, create_time, is_valid
   </sql>
@@ -74,6 +90,17 @@
   <select id="findByUserEmail" resultMap="UserResultMap">
     select * FROM t_user
     where email=#{email}
+  </select>
+
+  <select id="findAllWithDetails" resultMap="UserResultMap">
+    select r.*
+      from
+      t_user_role ur left join t_user u on  ur.user_id = u.id
+               left join t_role r ON  ur.role_id = r.id
+      where
+      u.is_valid = 1 AND
+      ur.is_valid = 1 AND
+      r.is_valid = 1
   </select>
 
 </mapper>

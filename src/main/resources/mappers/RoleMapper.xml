@@ -8,6 +8,20 @@
     <result column="sign" jdbcType="VARCHAR" property="sign" />
     <result column="is_valid"  property="isValid" />
   </resultMap>
+
+  <resultMap id="RoleBeanResultMap" type="com.khh.core.bean.RoleBean">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="sign" jdbcType="VARCHAR" property="sign" />
+    <collection property="permissionList" javaType="ArrayList" ofType="com.khh.core.bean.PermissionBean" >
+      <id column="p_id" property="id" />
+      <result column="p_name" property="name"/>
+      <result column="p_sign" property="sign"/>
+      <result column="p_description" property="description"/>
+    </collection>
+  </resultMap>
+
   <sql id="add_column_list">
     id, name, description, sign, is_valid
   </sql>
@@ -15,10 +29,6 @@
     insert into t_role(<include refid="add_column_list" />)
     values(#{id},#{name},#{description},#{sign},#{isValid})
   </insert>
-
-  <delete id="deleteById" >
-    delete from t_role where id = #{id}
-  </delete>
 
   <update id="update" parameterType="com.khh.web.domain.Role" >
     update t_role
@@ -42,7 +52,16 @@
   </update>
 
   <select id="findById" resultMap="RoleResultMap">
-    select * from t_role where id=#{id}
+    select * from t_role where id=#{id} and is_valid = 1
+  </select>
+
+  <select id="findDetailById" resultMap="RoleBeanResultMap">
+    select r.id as id , r.name as name ,r.description as description ,r.sign as sign,
+            p.id as p_id, p.name as p_name, p.description as p_description, p.sign as p_sign
+      from
+      t_role_permission rp left join t_role r on  rp.role_id = r.id
+               left join t_permission p ON  rp.permission_id = p.id
+      where r.is_valid = 1 and p.is_valid = 1 and r.id=#{id}
   </select>
 
 
@@ -54,9 +73,13 @@
       where u.id = #{id}
   </select>
 
-  <select id="findAll" resultMap="RoleResultMap">
-    select *
-    from t_role
+  <select id="findAllWithDetail" resultMap="RoleBeanResultMap">
+    select r.id as id , r.name as name ,r.description as description ,r.sign as sign,
+            p.id as p_id, p.name as p_name, p.description as p_description, p.sign as p_sign
+      from
+      t_role_permission rp left join t_role r on  rp.role_id = r.id
+               left join t_permission p ON  rp.permission_id = p.id
+      where r.is_valid = 1 and p.is_valid = 1
   </select>
 
 </mapper>

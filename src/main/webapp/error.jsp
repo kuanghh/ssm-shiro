@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>index jsp</h2>
+<h2>error 404</h2>
 </body>
 </html>
