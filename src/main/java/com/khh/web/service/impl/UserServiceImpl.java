@@ -35,6 +35,8 @@ public class UserServiceImpl implements UserService {
         user.setCreateTime(new Date());
         //默认有效
         user.setState(User.USER_STATE_ENABLE);
+
+        //开始添加客户-角色
         List<UserRole> urList = new ArrayList<>();
         //TODO 验证角色id的合法性(包括了id是否为空，id的长度，id是否真实存在于数据库)  看否能用缓存解决
         String[] roleIds = userBean.getRoleIds();
@@ -42,7 +44,6 @@ public class UserServiceImpl implements UserService {
             UserRole ur = new UserRole(user.getId(),roleIds[i]);
             urList.add(ur);
         }
-        //添加客户-角色
         userRoleMapper.insertAll(urList);
         return userMapper.insert(user);
     }

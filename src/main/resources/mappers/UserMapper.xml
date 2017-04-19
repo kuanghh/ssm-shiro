@@ -37,10 +37,6 @@
     values(#{id},#{name},#{password},#{state},#{email},#{createTime},#{isValid})
   </insert>
 
-  <delete id="deleteById" >
-    delete from t_user where id = #{id}
-  </delete>
-
   <update id="update" parameterType="com.khh.web.domain.User" >
     update t_user
     set
@@ -74,22 +70,22 @@
 
   <select id="authenticationByName" resultMap="UserResultMap" parameterType="com.khh.web.domain.User">
     select * FROM t_user
-    where name=#{name} and password=#{password}
+    where name=#{name} and password=#{password} and is_valid = 1
   </select>
 
   <select id="authenticationByEmail" resultMap="UserResultMap" parameterType="com.khh.web.domain.User">
     select * FROM t_user
-    where email=#{email} and password=#{password}
+    where email=#{email} and password=#{password} and is_valid = 1
   </select>
 
   <select id="findByUserName" resultMap="UserResultMap" >
     select * FROM t_user
-    where name=#{name}
+    where name=#{name} and is_valid = 1
   </select>
 
   <select id="findByUserEmail" resultMap="UserResultMap">
     select * FROM t_user
-    where email=#{email}
+    where email=#{email} and is_valid = 1
   </select>
 
   <select id="findByIdWithDetails" resultMap="UserBeanResultMap">
