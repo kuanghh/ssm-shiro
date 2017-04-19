@@ -24,4 +24,6 @@ public interface UserMapper {
     User findByUserEmail(String email);
 
     List<UserBean> findAllWithDetails();
+
+    UserBean findByIdWithDetails(String id);
 }

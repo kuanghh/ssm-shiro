@@ -11,7 +11,7 @@
     <result column="is_valid"  property="isValid" />
   </resultMap>
 
-  <resultMap id="UserBeanResultMap" type="com.khh.web.domain.User">
+  <resultMap id="UserBeanResultMap" type="com.khh.core.bean.UserBean">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="state" jdbcType="INTEGER" property="state" />
@@ -92,8 +92,22 @@
     where email=#{email}
   </select>
 
-  <select id="findAllWithDetails" resultMap="UserResultMap">
-    select r.*
+  <select id="findByIdWithDetails" resultMap="UserBeanResultMap">
+     select u.id as id,u.name as name ,u.create_time as create_time,u.email as email,
+            r.id as r_id ,r.name as r_name ,r.sign as r_sign,r.description as r_description
+      from
+      t_user_role ur left join t_user u on  ur.user_id = u.id
+               left join t_role r ON  ur.role_id = r.id
+      where
+      u.is_valid = 1 AND
+      ur.is_valid = 1 AND
+      r.is_valid = 1 AND
+      u.id=#{id}
+  </select>
+
+  <select id="findAllWithDetails" resultMap="UserBeanResultMap">
+    select u.id as id,u.name as name ,u.create_time as create_time,u.email as email,
+            r.id as r_id ,r.name as r_name ,r.sign as r_sign,r.description as r_description
       from
       t_user_role ur left join t_user u on  ur.user_id = u.id
                left join t_role r ON  ur.role_id = r.id

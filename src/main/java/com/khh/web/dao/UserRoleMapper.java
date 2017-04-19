@@ -19,4 +19,18 @@ public interface UserRoleMapper {
      * @return
      */
     int insertAll(@Param(value = "list") List<UserRole> userRoleList);
+
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    List<UserRole> findByUserId(@Param(value = "user_id") String id);
+
+    /**
+     * 更新
+     * @param ur
+     * @param i
+     */
+    void update(@Param(value = "ur") UserRole ur,@Param(value = "isValid") int i);
 }

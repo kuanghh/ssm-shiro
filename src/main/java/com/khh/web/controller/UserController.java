@@ -87,13 +87,53 @@ public class UserController extends BaseController {
     @ResponseBody
     public ResponseBean findAll() throws Exception{
         ResponseBean responseBean = new ResponseBean();
-
         List<UserBean> userBeanList = userService.findAll();
         responseBean.setData("userList",userBeanList);
-        responseBean.setSuccessResponse("删除成功");
+        responseBean.setSuccessResponse("获取成功");
         return responseBean;
     }
 
+    /**
+     * 修改用户---资料回显
+     * @Param id
+     * @return
+     * @throws Exception
+     */
+    @RequiresPermissions(value = PermissionSign.USER_READ)
+    @RequestMapping(value = "/beforeEditUser" ,method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseBean beforeEditUser(String id) throws Exception{
+        ResponseBean responseBean = new ResponseBean();
 
+        UserBean userBean = userService.findById(id);
+        responseBean.setData("user",userBean);
+        responseBean.setSuccessResponse("获取成功");
+        return responseBean;
+    }
+
+    /**
+     * 修改用户
+     * @Param id
+     * @return
+     * @throws Exception
+     */
+    @RequiresPermissions(value = PermissionSign.USER_UPDATE)
+    @RequestMapping(value = "/updateUser" ,method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBean updateUser(@Valid UserBean userBean, BindingResult result) throws Exception{
+        ResponseBean responseBean = new ResponseBean();
+        if(result.hasErrors()){
+            responseBean.setErrorResponse(result.getFieldError().getDefaultMessage());
+            return responseBean;
+        }
+        System.out.println("开始修改");
+        int i = userService.update(userBean);
+        if(i == 0){
+            responseBean.setErrorResponse("修改失败");
+            return responseBean;
+        }
+        responseBean.setSuccessResponse("修改成功");
+        return responseBean;
+    }
 
 }

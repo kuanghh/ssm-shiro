@@ -19,4 +19,15 @@
     </foreach>
   </insert>
 
+  <select id="findByUserId" resultMap="BaseResultMap">
+    select * from t_user_role where user_id=#{user_id}
+  </select>
+  
+  <update id="update" >
+    update t_user_role
+    set is_valid=#{isValid}
+    where user_id = #{ur.userId}
+      AND role_id = #{ur.roleId}
+  </update>
+
 </mapper>

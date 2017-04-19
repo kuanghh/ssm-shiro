@@ -12,11 +12,11 @@ public interface UserService {
 
     int insert(UserBean userBean);
 
-    int update(User user);
+    int update(UserBean user);
 
     int deleteById(String user);
 
-    User findById(String id);
+    UserBean findById(String id);
 
     User authenticationByName(User user);
 
