@@ -7,6 +7,11 @@ import java.util.List;
 
 public interface RolePermissionMapper {
 
+    /**
+     * 增加
+     * @param record
+     * @return
+     */
     int insert(RolePermission record);
 
     /**

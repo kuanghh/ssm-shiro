@@ -38,6 +38,11 @@ public interface RoleService {
      */
     RoleBean findById(String id);
 
+    /**
+     * 通过用户Id查询角色
+     * @param id
+     * @return
+     */
     List<Role> findAllByUserId(String id);
 
     /**

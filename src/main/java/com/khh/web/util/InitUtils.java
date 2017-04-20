@@ -19,9 +19,9 @@ import java.util.Set;
 public class InitUtils {
 
 
-//    public static void main(String[] args) {
-//        initUser();
-//    }
+    public static void main(String[] args) {
+        System.out.println(System.getProperty("java.io.tmpdir"));//C:\Users\ADMINI~1.PC-\AppData\Local\Temp\
+    }
 //
 //    public static void initUser(){
 //        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring.xml");
