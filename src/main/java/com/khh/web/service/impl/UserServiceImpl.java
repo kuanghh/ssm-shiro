@@ -10,9 +10,7 @@ import com.khh.web.util.BeanUtilEx;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -53,38 +51,46 @@ public class UserServiceImpl implements UserService {
         User user = (User) BeanUtilEx.copyProperties2(new User(),userBean);
         //修改之后的角色
         String[] roleIds = userBean.getRoleIds();
+        List<String> rIds_New =  new ArrayList<>(Arrays.asList(roleIds));
         //数据库存在的用户-角色关系
         List<UserRole> urList = userRoleMapper.findByUserId(user.getId());
-        List<String> rIdsFromDB = urList.stream().map(ur -> ur.getRoleId()).collect(Collectors.toList());
+        Map<String, String> map = urList.stream().collect(Collectors.toMap(UserRole::getId, UserRole::getRoleId));
 
         //需要新增的关系
         List<UserRole> newUR = new ArrayList<>();
-        //需要更改的关系
-        List<UserRole> updateUR = new ArrayList<>();
+        //需要更改为有效的关系
+        List<UserRole> updateURToValid = new ArrayList<>();
+        //需要更改为无效的关系
+        List<UserRole> updateURToNotValid = new ArrayList<>();
 
-        for (int i = 0; i < roleIds.length; i++) {
-            if(rIdsFromDB.contains(roleIds[i])){
-                UserRole ur = new UserRole(user.getId(), roleIds[i]);
-                updateUR.add(ur);
-                userRoleMapper.update(ur,1);
+        for (Map.Entry<String, String> entries : map.entrySet()){
+            if(rIds_New.contains(entries.getValue())){
+                updateURToValid.add(new UserRole(entries.getKey(),user.getId(),entries.getValue()));
             }else{
-                newUR.add(new UserRole(user.getId(), roleIds[i]));
+                UserRole rp = new UserRole(entries.getKey(),user.getId(),entries.getValue());
+                rp.setIsValid(false);
+                updateURToNotValid.add(rp);
             }
         }
-        urList.removeAll(updateUR);
-        for (int i = 0; i < urList.size(); i++) {
-            UserRole rp = urList.get(i);
-            rp.setIsValid(false);
-            userRoleMapper.update(rp,0);
-        }
+        rIds_New.removeAll(updateURToValid.stream().map(UserRole::getRoleId).collect(Collectors.toList()));
+        rIds_New.removeAll(updateURToNotValid.stream().map(UserRole::getRoleId).collect(Collectors.toList()));
+
         if(newUR.size() > 0){
             userRoleMapper.insertAll(newUR);
+        }
+        //更改原本无效的记录为有效
+        if(updateURToValid.size() > 0){
+            userRoleMapper.updateAll(updateURToValid,true);
+        }
+        //更改原本有效的记录为无效
+        if(updateURToValid.size() > 0){
+            userRoleMapper.updateAll(updateURToValid,false);
         }
         return userMapper.update(user);
     }
 
     public int deleteById(String id) {
-        User user = userMapper.findById(id);
+        User user = userMapper.findById(id,true);
         if(user == null){
             return 0;
         }

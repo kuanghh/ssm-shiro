@@ -13,8 +13,7 @@ import com.khh.web.util.BeanUtilEx;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -56,15 +55,18 @@ public class RoleServiceImpl implements RoleService{
         Role role = (Role) BeanUtilEx.copyProperties2(new Role(),roleBean);
         //修改之后的权限
         String[] permissionId = roleBean.getPermissionId();
+        List<String> pIds_New = new ArrayList<>(Arrays.asList(permissionId));
         //原本存在关系的权限
         List<RolePermission> rplist = rolePermissionMapper.findByRoleId(role.getId());
-        List<String> pIdsFromDB = rplist.stream().map(rp -> rp.getPermissionId()).collect(Collectors.toList());
+        //键值类型 ： permissionId : Id
+        Map<String, String> map = rplist.stream().collect(Collectors.toMap(RolePermission::getId, RolePermission::getPermissionId));
 
         //需要新增的关系
         List<RolePermission> newRP = new ArrayList<>();
-        //需要更改的关系
-        List<RolePermission> updateRP = new ArrayList<>();
-
+        //需要更改为有效的关系
+        List<RolePermission> updateRPToValid = new ArrayList<>();
+        //需要更改为无效的关系
+        List<RolePermission> updateRPToNotValid = new ArrayList<>();
         /**
          * 有四种情况
          *  1.提交的角色权限关系，原本数据库不存在，此时要添加
@@ -72,31 +74,39 @@ public class RoleServiceImpl implements RoleService{
          *  3.提交的角色权限关系，原本数据库存在且有效，此时也更改(以后处理是否有更好的解决办法)
          *  4.没有提交的角色权限关系，原本数据库也存在，并有效，此时要更改为无效
          */
-        for (int i = 0; i < permissionId.length; i++) {
-            if(pIdsFromDB.contains(permissionId[i])){
-                RolePermission rp = new RolePermission(role.getId(),permissionId[i]);
-                updateRP.add(rp);
-                rolePermissionMapper.update(rp,1);
+        for (Map.Entry<String, String> entries : map.entrySet()){
+            if(pIds_New.contains(entries.getValue())){
+                updateRPToValid.add(new RolePermission(entries.getKey(),role.getId(),entries.getValue()));
             }else{
-                RolePermission rp = new RolePermission(role.getId(),permissionId[i]);
-                newRP.add(rp);
+                RolePermission rp = new RolePermission(entries.getKey(),role.getId(),entries.getValue());
+                rp.setIsValid(false);
+                updateRPToNotValid.add(rp);
             }
         }
-        rplist.removeAll(updateRP);
-        for (int i = 0; i < rplist.size(); i++) {
-            RolePermission rp = rplist.get(i);
-            rp.setIsValid(false);
-            rolePermissionMapper.update(rp,0);
+
+        pIds_New.removeAll(updateRPToValid.stream().map(RolePermission::getPermissionId).collect(Collectors.toList()));
+        pIds_New.removeAll(updateRPToNotValid.stream().map(RolePermission::getPermissionId).collect(Collectors.toList()));
+        for (int i = 0; i < pIds_New.size(); i++) {
+            newRP.add(new RolePermission(role.getId(),pIds_New.get(i)));
         }
 
+        //插入新的关系
         if(newRP.size() > 0){
             rolePermissionMapper.insertAll(newRP);
+        }
+        //更改原本无效的记录为有效
+        if(updateRPToValid.size() > 0){
+            rolePermissionMapper.updateAll(updateRPToValid,true);
+        }
+        //更改原本有效的记录为无效
+        if(updateRPToNotValid.size() > 0){
+            rolePermissionMapper.updateAll(updateRPToNotValid,false);
         }
         return roleMapper.update(role);
     }
 
     public int deleteById(String id) {
-        Role role = roleMapper.findById(id);
+        Role role = roleMapper.findById(id,true);
         if(role == null){
             return 0;
         }

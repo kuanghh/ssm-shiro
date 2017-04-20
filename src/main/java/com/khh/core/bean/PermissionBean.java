@@ -1,5 +1,7 @@
 package com.khh.core.bean;
 
+import com.khh.web.util.CodeUtils;
+
 /**
  * Created by 951087952@qq.com on 2017/4/19.
  */
@@ -12,6 +14,10 @@ public class PermissionBean {
     private String sign;
 
     private String description;
+
+    public PermissionBean(){
+        this.id = CodeUtils.getUUID();
+    }
 
     public String getId() {
         return id;

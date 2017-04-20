@@ -1,5 +1,7 @@
 package com.khh.web.domain;
 
+import com.khh.web.util.CodeUtils;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -15,7 +17,7 @@ public class Permission implements Serializable {
     private boolean isValid = true;
 
     public Permission(){
-        this.id = UUID.randomUUID().toString().replaceAll("-","");
+        this.id =  this.id = CodeUtils.getUUID();
     }
     public String getId() {
         return id;

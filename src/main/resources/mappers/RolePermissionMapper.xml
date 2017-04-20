@@ -2,26 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.khh.web.dao.RolePermissionMapper" >
   <resultMap id="BaseResultMap" type="com.khh.web.domain.RolePermission" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="role_id" property="roleId" jdbcType="VARCHAR" />
     <result column="permission_id" property="permissionId" jdbcType="VARCHAR" />
     <result column="is_valid" property="isValid" />
   </resultMap>
 
   <insert id="insert" parameterType="com.khh.web.domain.RolePermission" >
-    insert into t_role_permission (role_id, permission_id, is_valid)
-    values (#{roleId}, #{permissionId}, #{isValid})
+    insert into t_role_permission (id,role_id, permission_id, is_valid)
+    values (#{id},#{roleId}, #{permissionId}, #{isValid})
   </insert>
 
   <insert id="insertAll" parameterType="java.util.List" >
-    insert into t_role_permission (role_id, permission_id, is_valid)
+    insert into t_role_permission (id,role_id, permission_id, is_valid)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.roleId}, #{item.permissionId}, #{item.isValid})
+      (#{item.id} , #{item.roleId}, #{item.permissionId}, #{item.isValid})
     </foreach>
   </insert>
 
   <select id="findByRoleId" resultMap="BaseResultMap">
-    select * from t_role_permission where role_id=#{id}
+    select * from t_role_permission where role_id=#{roleId}
   </select>
 
   <update id="update" >
@@ -29,6 +30,19 @@
     set is_valid = #{isValid}
     where
       role_id = #{rp.roleId} and permission_id = #{rp.permissionId}
+  </update>
+
+  <update id="updateAll">
+     UPDATE t_role_permission
+     SET
+     <if test="isValid">is_valid = 1</if>
+    <if test="!isValid">is_valid = 0</if>
+    where
+    id in (
+    <foreach collection="list" item="item" separator=",">
+      #{item.id}
+    </foreach>
+    )
   </update>
 
 </mapper>

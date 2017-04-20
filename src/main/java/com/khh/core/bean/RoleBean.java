@@ -1,6 +1,7 @@
 package com.khh.core.bean;
 
 import com.khh.web.domain.Permission;
+import com.khh.web.util.CodeUtils;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Max;
@@ -34,7 +35,7 @@ public class RoleBean implements Serializable{
 
     private List<PermissionBean> permissionList = new ArrayList<>();
 
-    public RoleBean(){this.id = UUID.randomUUID().toString().replaceAll("-","");}
+    public RoleBean(){ this.id = CodeUtils.getUUID();}
 
     public String getId() {
         return id;

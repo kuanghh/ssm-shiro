@@ -20,11 +20,20 @@ public interface RolePermissionMapper {
      * 根据角色查找
      * @return
      */
-    List<RolePermission> findByRoleId(String id);
+    List<RolePermission> findByRoleId(@Param(value = "roleId")String id);
 
     /**
-     * 批量更改为有效或者无效
+     * 更改为有效或者无效
      * @param
      */
     void update(@Param(value = "rp")RolePermission rp,@Param(value = "isValid") int isValid);
+
+    /**
+     * 批量更改为有效或无效
+     * @param rps
+     * @param isValid
+     */
+    void updateAll(@Param(value = "list")List<RolePermission> rps,@Param(value = "isValid")boolean isValid);
+
+
 }

@@ -66,6 +66,9 @@
 
   <select id="findById" resultMap="UserResultMap">
       select * from t_user where id=#{id}
+      and
+      <if test="isValid">is_valid = 1</if>
+      <if test="!isValid"> is_valid = 0</if>
   </select>
 
   <select id="authenticationByName" resultMap="UserResultMap" parameterType="com.khh.web.domain.User">
@@ -111,6 +114,8 @@
       u.is_valid = 1 AND
       ur.is_valid = 1 AND
       r.is_valid = 1
+
+
   </select>
 
 </mapper>

@@ -1,5 +1,7 @@
 package com.khh.web.domain;
 
+import com.khh.web.util.CodeUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -24,7 +26,7 @@ public class User implements Serializable{
     public static int USER_STATE_DISABLE = 0;
 
     public User(){
-        this.id = UUID.randomUUID().toString().replaceAll("-","");
+        this.id = CodeUtils.getUUID();
     }
 
     public User(String name, String password) {

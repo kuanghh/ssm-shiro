@@ -1,5 +1,6 @@
 package com.khh.core.bean;
 
+import com.khh.web.util.CodeUtils;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
@@ -40,7 +41,7 @@ public class UserBean implements Serializable{
     private List<RoleBean> roleBeanList = new ArrayList<RoleBean>();
 
     public UserBean(){
-        this.id = UUID.randomUUID().toString().replaceAll("-","");
+        this.id = CodeUtils.getUUID();
     }
 
     public String getId() {

@@ -52,7 +52,13 @@
   </update>
 
   <select id="findById" resultMap="RoleResultMap">
-    select * from t_role where id=#{id} and is_valid = 1
+    select * from t_role where id=#{id}
+    <if test="isValid">
+      and is_valid = 1
+    </if>
+    <if test="!isValid">
+      and is_valid = 0
+    </if>
   </select>
 
   <select id="findDetailById" resultMap="RoleBeanResultMap">
