@@ -74,7 +74,9 @@ public class UserServiceImpl implements UserService {
         }
         rIds_New.removeAll(updateURToValid.stream().map(UserRole::getRoleId).collect(Collectors.toList()));
         rIds_New.removeAll(updateURToNotValid.stream().map(UserRole::getRoleId).collect(Collectors.toList()));
-
+        for (int i = 0; i < rIds_New.size() ; i++) {
+            newUR.add(new UserRole(user.getId(),rIds_New.get(i)));
+        }
         if(newUR.size() > 0){
             userRoleMapper.insertAll(newUR);
         }
