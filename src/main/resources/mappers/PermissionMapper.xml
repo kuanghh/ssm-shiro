@@ -31,4 +31,5 @@
   <select id="findAll" resultMap="PermissionResultMap" >
     select * from t_permission
   </select>
+
 </mapper>

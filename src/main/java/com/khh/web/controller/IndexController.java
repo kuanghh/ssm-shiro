@@ -67,12 +67,13 @@ public class IndexController extends BaseController{
             //如果名字不为空
             if(loginUserBean.getName() != null){
                 subject.login(new UsernamePasswordToken(loginUserBean.getName(),loginUserBean.getPassword()));
-                userService.findByUserName(loginUserBean.getName());
+
+                u = userService.findByUserName(loginUserBean.getName());
             }
             //如果邮箱不为空
             if(loginUserBean.getEmail() != null){
                 subject.login(new UsernamePasswordToken(loginUserBean.getEmail(),loginUserBean.getPassword()));
-                userService.findByUserEmail(loginUserBean.getEmail());
+                u = userService.findByUserEmail(loginUserBean.getEmail());
             }
         }catch (AuthenticationException e){
             e.printStackTrace();
