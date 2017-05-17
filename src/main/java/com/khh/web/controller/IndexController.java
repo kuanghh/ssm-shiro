@@ -67,7 +67,6 @@ public class IndexController extends BaseController{
             //如果名字不为空
             if(loginUserBean.getName() != null){
                 subject.login(new UsernamePasswordToken(loginUserBean.getName(),loginUserBean.getPassword()));
-
                 u = userService.findByUserName(loginUserBean.getName());
             }
             //如果邮箱不为空

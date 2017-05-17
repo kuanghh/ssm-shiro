@@ -17,7 +17,7 @@ public class Role implements Serializable {
     private boolean isValid = true;
 
     public Role(){
-        this.id =  this.id = CodeUtils.getUUID();
+        this.id = CodeUtils.getUUID();
     }
 
     public String getId() {

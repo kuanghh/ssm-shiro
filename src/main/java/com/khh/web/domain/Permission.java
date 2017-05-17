@@ -17,7 +17,7 @@ public class Permission implements Serializable {
     private boolean isValid = true;
 
     public Permission(){
-        this.id =  this.id = CodeUtils.getUUID();
+        this.id =  CodeUtils.getUUID();
     }
     public String getId() {
         return id;
